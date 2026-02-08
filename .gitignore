@@ -1,0 +1,26 @@
+# Build output
+_site/
+
+# Local env files
+.env
+.env.local
+
+# Private keys
+*.pem
+*.key
+
+# OS & editor files
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Node / Python deps
+node_modules/
+__pycache__/
+
+# Temporary files
+tmp_*.css
+
+# Ignore data created during local testing (uncomment if you prefer not to commit)
+# images/instagram/
+# data/instagram.json
