@@ -1,7 +1,65 @@
-Personal gh-pages website for sergey zhukov
+Personal gh-pages website for Sergey Zhukov (sergeyz.tk)
 
-Local docker development borrowed from:
+This repository contains a static single-page portfolio site (Jekyll-compatible) adapted
+from the KARDS HTML template and customized for sergeyz.tk.
 
-https://bucketofcode.com/how-to-run-github-pages-locally-with-docker
+## Quick start (local Docker)
 
-HTML Template adapted and customized for sergeyz.tk
+1. Build and run the site locally with Docker Compose:
+
+	 ```powershell
+	 docker compose up --build
+	 ```
+
+2. Open http://localhost:4000 in your browser.
+
+Notes:
+- The Docker container installs and builds native Ruby gems required by the site (nokogiri, commonmarker).
+- If you update gem versions in `Gemfile`, regenerate `Gemfile.lock` and commit it before rebuilding the image.
+
+## Instagram gallery (manual, token-free)
+
+To populate the portfolio gallery with images without storing API tokens in the repo:
+
+1. Add image files to `images/instagram/` (jpg, png, gif, webp supported).
+2. Generate a manifest with the bundled script:
+
+	 ```powershell
+	 python scripts/generate_manifest.py --src images/instagram --out data/instagram.json
+	 ```
+
+3. Commit `images/instagram/` and `data/instagram.json` to the repository — the site will render the gallery from the manifest.
+
+## Security & maintenance
+
+- Do not add API tokens or secrets to this public repo. If you need automated syncing, use a separate private workflow or external storage.
+- The `Gemfile` was updated to prefer patched versions for vulnerable gems. To update the lockfile locally, run:
+
+	```powershell
+	# backup
+	cp Gemfile.lock Gemfile.lock.bak
+	# update specific gems
+	bundle update rexml nokogiri activesupport
+	# or regenerate (use with caution)
+	rm Gemfile.lock && bundle install
+	```
+
+## Docker / local dev notes
+
+- `docker compose up --build` will build a local image (Ruby 3.2) and install gems.
+- If you run into gem compilation errors (native extensions), ensure system build libraries are available in the image or run the provided container-based update steps in the README.
+
+## Changes in this fork
+
+- Removed server-side Instagram syncing and GitHub Actions that required repository secrets.
+- The site now prefers a local manifest `data/instagram.json` generated from `images/instagram/`.
+- Header and branding cleaned up; resume updated and `Download CV` linked to `files/szhukovcv.pdf`.
+
+## Credits & License
+
+This project was adapted from the KARDS template and customized for sergeyz.tk.
+
+Third-party resources used (fonts, icons, plugins):
+- Font Awesome
+
+See header comments in the CSS/JS files for further attributions.
